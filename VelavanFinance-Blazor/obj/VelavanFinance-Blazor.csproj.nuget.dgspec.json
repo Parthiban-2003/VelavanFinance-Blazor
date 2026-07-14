@@ -50,6 +50,16 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "CodeBeam.MudBlazor.Extensions.Qr": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Extensions0121.MudBlazor": {
+              "target": "Package",
+              "version": "[0.3.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
