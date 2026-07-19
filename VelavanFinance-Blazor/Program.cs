@@ -10,6 +10,12 @@ builder.Services.AddRazorComponents()
 // MudBlazor Services
 builder.Services.AddMudServices();
 
+// Register DatabaseService for Dependency Injection
+builder.Services.AddScoped<VelavanFinanceERP.Services.DatabaseService>();
+
+// Register UserSessionService (Scoped means it lives as long as the user's browser session)
+builder.Services.AddScoped<VelavanFinanceERP.Services.UserSessionService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
