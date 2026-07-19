@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="CodeBeam.MudBlazor.Extensions.Qr" Version="9.0.0" />
     <PackageReference Include="Extensions0121.MudBlazor" Version="0.3.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>

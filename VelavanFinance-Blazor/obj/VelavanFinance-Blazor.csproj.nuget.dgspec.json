@@ -58,6 +58,10 @@
             "Extensions0121.MudBlazor": {
               "target": "Package",
               "version": "[0.3.0, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[7.0.2, )"
             }
           },
           "imports": [

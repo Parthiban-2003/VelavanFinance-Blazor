@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VelavanFinance-Blazor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41673c00ba4e9542be2e70fc3c041ade2c208d31")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed6546bd64019c205720a9c491fed00d44e5ea6c")]
 [assembly: System.Reflection.AssemblyProductAttribute("VelavanFinance-Blazor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VelavanFinance-Blazor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
