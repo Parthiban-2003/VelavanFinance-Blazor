@@ -1,0 +1,135 @@
+﻿@page "/login"
+@using MudBlazor
+@using VelavanFinanceERP.Services
+
+@inject DatabaseService DbService
+@inject UserSessionService UserSession
+@inject NavigationManager NavManager
+@inject ISnackbar Snackbar
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="mt-10">
+    <MudCard Elevation="10">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h5" Align="Align.Center">
+                    Velavan Finance ERP
+                </MudText>
+                <MudText Typo="Typo.subtitle2" Align="Align.Center" Color="Color.Secondary">
+                    Please login to continue
+                </MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+
+        <MudCardContent>
+            <MudForm @ref="form">
+                <MudTextField T="string"
+                              Label="User Name"
+                              @bind-Value="Username"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"
+                              Required="true"
+                              RequiredError="User Name is required" />
+
+                <MudTextField T="string"
+                              Label="Password"
+                              @bind-Value="Password"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"
+                              InputType="InputType.Password"
+                              Required="true"
+                              RequiredError="Password is required" />
+            </MudForm>
+        </MudCardContent>
+
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       FullWidth="true"
+                       Disabled="@isLoading"
+                       OnClick="HandleLogin">
+                @if (isLoading)
+                {
+                    <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="me-2" />
+                }
+                Login
+            </MudButton>
+        </MudCardActions>
+    </MudCard>
+</MudContainer>
+
+@code {
+    private MudForm? form;
+    private string Username = "";
+    private string Password = "";
+    private bool isLoading = false;
+
+    private async Task HandleLogin()
+    {
+        // 1. Await validation, then check the IsValid property
+        if (form != null)
+        {
+            await form.Validate();
+            if (!form.IsValid)
+            {
+                Snackbar.Add("Please fill in all required fields.", Severity.Warning);
+                return;
+            }
+        }
+
+        isLoading = true;
+
+        try
+        {
+            // Note: Added UPPER() to match your original VB.NET logic which used .ToUpper()
+            string query = "SELECT UserName, Password, Rights, Active_status FROM User_Details WHERE UPPER(UserName) = @username AND UPPER(Password) = @password";
+
+            var parameters = new Dictionary<string, object>
+            {
+                { "@username", Username.Trim() },
+                { "@password", Password.Trim() }
+            };
+
+            var dt = DbService.ExecuteQuery(query, parameters);
+
+            if (dt.Rows.Count > 0)
+            {
+                var row = dt.Rows[0];
+
+                // 2. Check if the user is Active (Matching your original VB.NET logic)
+                if (row["Active_status"].ToString().ToUpper() != "YES")
+                {
+                    Snackbar.Add("This User is Now Inactive. Please contact the administrator.", Severity.Warning);
+                    Password = string.Empty;
+                    return;
+                }
+
+                // Save user details to Global Session Service
+                UserSession.SetUserDetails(
+                    row["UserName"].ToString(),
+                    row["BranchName"].ToString(), // Ensure your DB query selects BranchName if it's in another table or adjust accordingly
+                    row["CompanyName"].ToString(),
+                    row["Rights"].ToString()      // Maps to AdminRights
+                );
+
+                Snackbar.Add($"Welcome back, {Username}!", Severity.Success);
+                await Task.Delay(500);
+
+                // Redirect to Dashboard
+                NavManager.NavigateTo("/dashboard");
+            }
+            else
+            {
+                Snackbar.Add("Invalid Username or Password!", Severity.Error);
+                Password = string.Empty;
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Database Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

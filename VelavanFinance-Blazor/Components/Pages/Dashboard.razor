@@ -1,0 +1,15 @@
+﻿@page "/dashboard"
+@using VelavanFinanceERP.Services
+@inject UserSessionService UserSession
+
+<MudText Typo="Typo.h4" Class="mb-4">
+    Welcome to Dashboard, @UserSession.UserName!
+</MudText>
+
+<MudPaper Class="pa-4" Elevation="2">
+    <MudText Typo="Typo.body1">
+        <b>Branch:</b> @UserSession.BranchName <br />
+        <b>Company:</b> @UserSession.CompanyName <br />
+        <b>Role:</b> @UserSession.AdminRights
+    </MudText>
+</MudPaper>

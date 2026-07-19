@@ -1,7 +1,37 @@
-﻿@page "/"
+﻿@page "/home"
+@using VelavanFinanceERP.Services
+@inject DatabaseService DbService
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="TestDatabase">Test DB Connection</MudButton>
+<p>@Message</p>
 
 Welcome to your new app.
+
+@code {
+    private string Message = "";
+
+    private void TestDatabase()
+    {
+        try
+        {
+            // Oru simple query run panni paapom
+            var dt = DbService.ExecuteQuery("SELECT TOP 1 UserName FROM User_Details");
+
+            if (dt.Rows.Count > 0)
+            {
+                Message = "Super macha! DB Connected. First User: " + dt.Rows[0]["UserName"].ToString();
+            }
+            else
+            {
+                Message = "DB Connected, but User_Details table is empty!";
+            }
+        }
+        catch (Exception ex)
+        {
+            Message = "Error: " + ex.Message;
+        }
+    }
+}

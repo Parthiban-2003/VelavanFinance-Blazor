@@ -1,0 +1,61 @@
+@inherits LayoutComponentBase
+@using MudBlazor
+
+<MudLayout>
+    <!-- Top App Bar -->
+    <MudAppBar Elevation="1" Color="Color.Primary">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudText Typo="Typo.h6" Class="ml-4">Velavan Finance ERP</MudText>
+        <MudSpacer />
+        <MudText Typo="Typo.body1">Welcome, Admin</MudText>
+        <MudIconButton Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Inherit" />
+    </MudAppBar>
+
+    <!-- Sidebar Drawer -->
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <MudNavMenu>
+            <MudNavLink Icon="@Icons.Material.Filled.Dashboard" Href="/">Dashboard</MudNavLink>
+
+            <MudNavGroup Title="Proposal" Icon="@Icons.Material.Filled.Description" Expanded="true">
+                <MudNavLink Href="/proposal/new">New Proposal</MudNavLink>
+                <MudNavLink Href="/proposal/edit">Edit Proposal</MudNavLink>
+            </MudNavGroup>
+
+            <MudNavGroup Title="Masters" Icon="@Icons.Material.Filled.Settings">
+                <MudNavLink Href="/masters/city">City Master</MudNavLink>
+                <MudNavLink Href="/masters/vehicle">Vehicle Config</MudNavLink>
+                <MudNavLink Href="/masters/salesman">Salesman</MudNavLink>
+            </MudNavGroup>
+
+            <MudNavGroup Title="Transactions" Icon="@Icons.Material.Filled.ReceiptLong">
+                <MudNavLink Href="/transactions/receipt">Receipt Entry</MudNavLink>
+                <MudNavLink Href="/transactions/seize">Vehicle Seize</MudNavLink>
+            </MudNavGroup>
+
+            <MudNavGroup Title="Accounts" Icon="@Icons.Material.Filled.AccountBalance">
+                <MudNavLink Href="/accounts/voucher">Voucher Entry</MudNavLink>
+                <MudNavLink Href="/accounts/ledger">Ledger Creation</MudNavLink>
+                <MudNavLink Href="/accounts/daybook">Daybook</MudNavLink>
+            </MudNavGroup>
+
+            <MudNavGroup Title="Reports" Icon="@Icons.Material.Filled.Assessment">
+                <MudNavLink Href="/reports/pending">Pending Dues</MudNavLink>
+                <MudNavLink Href="/reports/collection">Collection Report</MudNavLink>
+            </MudNavGroup>
+        </MudNavMenu>
+    </MudDrawer>
+
+    <!-- Main Content Area -->
+    <MudMainContent Class="pa-4">
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _drawerOpen = true;
+
+    private void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
